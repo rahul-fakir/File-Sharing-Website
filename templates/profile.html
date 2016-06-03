@@ -1,0 +1,596 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block mycss %}
+<link rel="stylesheet" href="{% static 'css/profile.css'%}">
+<script src="{% static 'cab/js/tags/bootstrap-tagsinput.js'%}"></script>
+{% endblock %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="/">
+    			        dashboard
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                     <!--<a href="/catalog">
+                        EXPLORE
+                    </a>-->
+                        <a tabindex="-1" href="#">EXPLORE</a>
+                        <ul class="dropdown-menu" style="left:100; margin-top: 26px;">
+                            {% for category in categories %}
+                            <li style="text-align:center">
+                                <a href="{{ category.url }}">
+                                    {{ category }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/about">
+                        About us
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="/profile">
+                        Profile / Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/profile">
+                            Profile / Items
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                    
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+    
+    <div class="container catalog">
+
+        <div class="row prof" style="margin-top:20px">
+            
+            <div class="col-sm-3">
+                <img class="avatar" src="/{{user.avatar}}" alt="" />
+                <button style="width: 100%;height: initial; margin-top: 10px;line-height: 1em;" type="button" class="btn btn-info" data-toggle="modal" data-target="#downloadAvatar">Change profile picture</button>
+            </div>
+            <div class="col-sm-5">
+                <form class="form-horizontal form-label-left" method="POST" action="{% url 'cab.editProfile' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstName">FirstName <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" name="firstName" class="form-control" value="{% firstof user.firstname %}" placeholder="Firstname please enter"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">LastName <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" name="lastname" class="form-control" value="{% firstof user.lastname %}" placeholder="Lastname please enter"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail <span class="required">*</span>
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="E-mail" name="email" class="form-control" value="{% firstof user.email %}" placeholder="Email please enter"/>
+                      </div>
+                    </div>
+                    
+                    <button class="btn btn-info" style="height: initial;width: 10em;line-height: 1em;" type="submit">Edit</button>
+                </form>
+                
+                <button class="btn btn-info" id="changePasswordButton" style="height: initial;margin-top:15px;line-height: 1em;" type="button">Change Password</button>
+            </div>
+            
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>My items</h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <button style="line-height: 1em;height:initial" class="btn btn-info" type="button" data-toggle="modal" data-target="#addCat">Add</button>
+                    </div>
+                </div>
+                <ul class="list-unstyled" style="max-height:400px; overflow-y:auto; overflow-x:hidden">
+                    {% for i in items %}
+                    <li>
+                        <div class="row items-list">
+                            <a href="/catalog/{{i.id}}">
+                                <div class="col-sm-3" style="padding:0px">
+                                    <img src="/{{i.main_foto.name}}" alt="" />
+                                </div>
+                                <div class="col-sm-5">
+                                    <h5>{{i.name}}</h5>
+                                    <p style="font-size: 0.8em; line-height: 1em;color:#606060">{{i.date_published}}</p>
+                                </div>
+                            </a>
+                            <div class="col-sm-4 btn-group" style="padding:1em">
+                                <button style="line-height: 1em;height:initial" data-id="{{i.id}}" type="button" class="btn edit"><i class="fa fa-pencil "></i></button>
+                                <button style="line-height: 1em;height:initial" data-id="{{i.id}}" type="button" class="btn delete"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="downloadAvatar">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Download avatar</h4>
+      </div>
+      <div class="modal-body">
+        <form class="dropzoneAddAvatar dropzone form-horizontal form-label-left" method="POST">
+            {% csrf_token %}
+        </form>
+        <input type="hidden" value="" name="avatar" id="avatar_input2" />
+      </div>
+      <div class="modal-footer">
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-primary download">Edit</button>
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="cropperImgModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Cropper Image</h4>
+      </div>
+      <div class="modal-body">
+        <img class="croppImg" src="/static/fotos/collagen.jpeg" alt="" />
+        <input type="hidden" id="dataX" value=""/>
+        <input type="hidden" id="dataY" value=""/>
+        <input type="hidden" id="dataHeight" value=""/>
+        <input type="hidden" id="dataWidth" value=""/>
+        <input type="hidden" id="inputImage" value="" />
+      </div>
+      <div class="modal-footer">
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-primary cropper">Yes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="changePassword">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12" style="">
+                <label for="Oldpassword" class="">Old Password</label>
+                  <input style="height:40px" name="Oldpassword" type="password" id="id_passwordOld" class="form-control" placeholder="Old Password" required="" />
+            </div>
+            <div class="col-sm-12" style="margin-top:1em">
+                <label for="password" class="">New Password</label>
+                  <input style="height:40px" name="password" type="password" id="id_passwordNew" class="form-control" placeholder="New Password" required="" />
+            </div>
+            <div class="col-sm-12" style="margin-top:1em">
+                <label for="password2" class="">Confirm your password</label>
+                  <input style="height:40px" name="password2" type="password" id="id_passwordConfirm" class="form-control" placeholder="Confirm your password" required="" />
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-primary passwordConfirm">Change</button>
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="addCatModalLabel">Add new item?</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12" placeholder="Name item...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inform" class="control-label col-md-3 col-sm-3 col-xs-12">Description <span class="required">*</span></label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <textarea id="inform" class="form-control col-md-7 col-xs-12" name="inform" placeholder="Description element..."></textarea>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Tags <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="tags" data-role="tagsinput" required="required" class="form-control col-md-7 col-xs-12" placeholder="Tags item...">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Category <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                  <select class="form-control" id="library" required="required" class="form-control col-md-7 col-xs-12">
+                      {% for libraries in libraries_all %}
+                      <option value="{{ libraries.name }}">{{ libraries.name }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+            </div>
+            <input type="hidden" name="fotos" id="fotos_inputAdd" />
+            <input type="hidden" name="files" id="files_inputAdd" />
+        </form>
+        
+        <form class="dropzoneAddImage dropzone form-horizontal form-label-left" method="POST">
+            {% csrf_token %}
+        </form>
+        
+        <form class="dropzoneAddFiles dropzone form-horizontal form-label-left" method="POST">
+            {% csrf_token %}
+        </form>
+        
+          <p class="errors" style="color:red"></p>
+      </div>
+      <div class="modal-footer">
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-default" data-dismiss="modal">End</button>
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-primary submit">Yes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript" src="{% static 'cab/js/dropzone/dropzone.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js'%}"></script>
+  <!--<script type="text/javascript" src="{% static 'cab/js/cropping/cropper.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/cropping/main2.js'%}"></script>-->
+<script type="text/javascript">
+
+$(function() {
+    
+    $('#changePasswordButton').click(function() {
+        $('#changePassword').modal('show');
+    });
+    
+    $('.items-list button.edit').click(function() {
+        window.location.href = "{% url 'cab.changeItem' %}?item=" + $(this).attr('data-id');
+    });
+    
+    var myDropzone1 = new Dropzone(".dropzoneAddAvatar", {
+        url: "{% url 'cab.downloadAvatar' %}",
+        dictDefaultMessage: 'Drop images here to upload',
+        acceptedFiles: 'image/*'
+    });
+    var myDropzone2 = new Dropzone(".dropzoneAddImage", {
+        url: "{% url 'cab.downloadAvatar' %}",
+        dictDefaultMessage: 'Drop images here to upload',
+        acceptedFiles: 'image/*'
+
+    });
+    var myDropzone3 = new Dropzone(".dropzoneAddFiles", {
+        url: "{% url 'cab.downloadFilesNewItem' %}",
+        dictDefaultMessage: 'Drop files here to upload',
+    });
+    
+    
+    myDropzone1.on("success", function(file, request){
+        $('#avatar_input2').val(request.foto);
+    });
+    myDropzone1.on("error", function(file){
+        this.removeFile(file);
+        alert("Error download!");
+    });
+    
+    //croppImage.replace($('#inputImage').val());
+    myDropzone2.on("success", function(file, request){
+        /*if($('#fotos_inputAdd').val() == "")
+        {
+            $('#addCat').modal('hide');
+            $('#cropperImgModal #inputImage').val('/' + request.foto.replace('media/','static/'));
+            $('.cropper-container > img').attr('src', $('#inputImage').val());
+            $('.cropper-cropbox > span.cropper-viewer img').attr('src', $('#inputImage').val());
+            
+            $('#cropperImgModal').modal('show');
+        }
+        else
+        {*/
+            $('#fotos_inputAdd').val(
+                $('#fotos_inputAdd').val() + request.foto + ";"  
+            );
+        //}
+        
+    });
+    myDropzone2.on("error", function(file){
+        this.removeFile(file);
+        alert("Error download");
+    });
+    myDropzone3.on("success", function(file, request){
+        $('#files_inputAdd').val(
+            $('#files_inputAdd').val() + request.file + ";"  
+          )
+    });
+    myDropzone3.on("error", function(file){
+        this.removeFile(file);
+        alert("Error download");
+    });
+    
+
+    $('#addCat button.submit').click(function() {
+        if( ($('#name').val() == "") && ($('#inform').val() == "") )
+            alert("Please fill in the fields");
+        //else if ( $('#fotos_inputAdd').val() == "" )
+        //    alert("Please Download images");
+        else{
+            $.ajax({
+              url: "{% url 'cab.addItem' %}",
+              type: 'POST',
+              data: {
+                  name: $('#name').val(),
+                  inform: $('#inform').val(),
+                  tags: $('#tags').val(),
+                  fotos: $('#fotos_inputAdd').val(),
+                  files: $('#files_inputAdd').val(),
+                  library: $('#library').val()
+              },
+              success: function(data){
+                  window.location.href = "{% url 'cab.main' %}";
+              },
+              error: function(data) {
+                  alert('ERROR!');
+              },            
+              // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                  function getCookie(name) {
+                      var cookieValue = null;
+                      if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+        }
+    });
+    
+    $('#downloadAvatar button.download').click(function() {
+        if( $('#avatar_input2').val() == "" )
+            alert("Please upload an image");
+        else{
+            $.ajax({
+              url: "{% url 'cab.saveAvatar' %}",
+              type: 'POST',
+              data: {
+                  name: $('#avatar_input2').val(),
+              },
+              success: function(data){
+                  window.location.href = "{% url 'cab.main' %}";
+              },
+              error: function(data) {
+                  alert('ERROR!');
+              },            
+              // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                  function getCookie(name) {
+                      var cookieValue = null;
+                      if (document.cookie && document.cookie != '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = jQuery.trim(cookies[i]);
+                                    // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                        }
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    }
+                });// ajax
+        }
+    });
+    
+    
+    $('.prof button.delete').click(function() {
+        $.ajax({
+              url: "{% url 'cab.deleteItem' %}",
+              type: 'POST',
+              data: {
+                  id: $(this).attr('data-id')
+              },
+              success: function(data){
+                  window.location.href = "{% url 'cab.main' %}";
+              },
+              error: function(data) {
+                  alert('ERROR!');
+              },            
+              // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                  function getCookie(name) {
+                      var cookieValue = null;
+                      if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });// ajax
+    });
+    
+    
+    $('button.passwordConfirm').click(function() {
+         $.ajax({
+              url: "{% url 'cab.changePassword' %}",
+              type: 'POST',
+              data: {
+                  passwordOld: $('#id_passwordOld').val(),
+                  password1: $('#id_passwordNew').val(),
+                  password2: $('#id_passwordConfirm').val()
+              },
+              success: function(data){
+                 if(data.result == true)
+                    window.location.href = "{% url 'cab.main' %}";
+                else alert(data.error);
+              },
+              error: function(data) {
+                  alert('ERROR!');
+              },            
+              // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                  function getCookie(name) {
+                      var cookieValue = null;
+                      if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });// ajax
+    });
+    
+});
+</script>
+
+{% endblock %}

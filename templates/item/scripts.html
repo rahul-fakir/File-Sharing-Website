@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<script>
+	var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+		showLeft = document.getElementById( 'showLeft' ),
+		body = document.body;
+
+	showLeft.onclick = function() {
+		classie.toggle( this, 'active' );
+		classie.toggle( menuLeft, 'cbp-spmenu-open' );
+		disableOther( 'showLeft' );
+	};
+
+	function disableOther( button ) {
+		if( button !== 'showLeft' ) {
+			classie.toggle( showLeft, 'disabled' );
+		}
+	}
+	
+	/*function getWidth() { // Получаем ширину рабочей области браузера 
+		if (IE || Opera) send = document.body.clientWidth; 
+		if (NC) send = window.innerWidth; 
+		return send; 
+	} */
+	
+	
+	//прячем поиск
+	if (screen.width < 768)
+		$('header .home-banner-inner').css('display', 'none');
+	
+	
+	
+jQuery("#showLeft").toggle(
+	function() {
+		jQuery(".open-nav").hide();
+		jQuery(".close-nav").show();
+	}, 
+	function() {
+		jQuery(".close-nav").hide();
+		jQuery(".open-nav").show();
+	}
+	
+);
+
+</script>
+
+<script type="text/javascript" src="{% static 'js/jquery-ui.js'%}?ver=1.11.4"></script>
+
+<script type="text/javascript" src="{% static 'js/flexslider-min.js'%}?ver=2.6.0"></script>
+
+<script type="text/javascript" src="{% static 'js/classie.js'%}?ver=1.0.0"></script>
+
+<script type="text/javascript" src="{% static 'js/jquery.formalize.min.js'%}?ver=1.0.0"></script>
+
+<script type="text/javascript" src="{% static 'js/viewport.js'%}?ver=1.3.2"></script>
+
+<script type="text/javascript" src="{% static 'js/custom.js'%}?ver=1.0.0"></script>
+

@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block mycss %}
+<link rel="stylesheet" href="{% static 'css/catalog.css'%}">
+{% endblock %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="{% url "staff:home" %}">
+    			        Users
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="{% url "staff:item" %}">
+                        Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:categories" %}">
+                        Categories
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:libraries" %}">
+                        Libraries
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            Profile / Items
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+</div>
+    
+    <div class="container catalog">
+
+        <div class="row items">
+            {% for i in items %}
+            
+            <div class="col-sm-4 item-square">
+                <div class="padding">
+                    <div>
+                        <div class="row">
+                            <a href="/admins/item/{{i.id}}">
+                                <img class="overlayme" src="/{{i.main_foto.name}}" alt="" />
+                            </a>
+                            <div class="top">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <img class="img-circle" src="/{{i.user.avatar}}" alt=""/>
+                                    </div>
+                                    <div class="col-sm-9 text-center pull-right">
+                                        <p>
+                                            <span class="name">{{i.name}}</span></br>
+                                            <span class="author">by {{i.user.lastname}} {{i.user.firstname}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="date_published">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p>Published: {{i.date_published}}</p>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                        <div class="row bottom">
+                            <div class="col-sm-4 text-center like">
+                                <i class="fa fa-heart"></i>
+                                <span class="{{i.name}}">
+                                    {% for q in likes %}
+                                        {% for t in q %}
+                                            {% if forloop.counter == 1 %}
+                                                {% if t == i.id %}
+                                                    
+                                                    {% for r in q %}
+                                                        {% if forloop.counter == 2 %}
+                                                            {{r}}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </span>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <i class="fa fa-eye"></i>
+                                <span>{{i.views}}</span>
+                            </div>
+                            <div class="col-sm-4 text-center">
+                                <i class="fa fa-comments"></i>
+                                <span>0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

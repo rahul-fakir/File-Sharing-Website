@@ -1,0 +1,42 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+
+{% block title %}Активационное письмо отправлено{% endblock %}
+
+{% block content %}
+<p>Пжоалуйста проверьте вашу почту, на нее придет письмо с сылкой на активацию аккаунта!</p>
+Вы автоматически будетет перенаправлены через:
+ <span style="color:red;font-weight: bold;" id="sec">10</span> сек
+ или перейдите по этой ссылке:
+ <a href="http://firelead.ru:7755/login">
+ Вход</a>
+<script type="text/javascript">
+var sec=10;
+ function Sec()
+ {
+
+  document.getElementById("sec").innerHTML=sec;
+   sec--;
+   if(sec==1)
+   {
+   	  location.replace("http://firelead.ru:7755/login")
+   }
+
+   setTimeout('Sec()',1000);
+
+ }
+</script>
+<script type="text/javascript">
+    Sec();
+</script>
+{% endblock %}
+
+
+{% comment %}
+**registration/registration_complete.html**
+
+Used after successful completion of the registration form. This
+template has no context variables of its own, and should simply inform
+the user that an email containing account-activation information has
+been sent.
+{% endcomment %}

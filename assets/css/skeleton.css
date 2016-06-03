@@ -1,0 +1,77 @@
+/* #Base 1200 Grid
+================================================== */
+
+		.container								{position:relative;width:1180px;margin:0 auto;padding:0 10px;}
+	
+		/* Base Grid */
+		.container .one-fourth				{width:280px;margin-right:20px;}
+		.container .one-third					{width:380px;margin-right:20px;}
+		.container .two-thirds				{width:760px;margin-right:20px;}
+		.container .one-half					{width:580px;margin-right:20px;}
+		.container .column					{float:left;}
+		.container .column.last				{float:right;margin-right:0;}
+
+		/* 2 Col set */
+		.col2-set .col-1,
+		.col2-set .col-2 						{width:45%;float:left;}
+		.col2-set .col-2						{float:right;}		
+
+/* #Tablet (Portrait)
+================================================== */
+
+	/* Note:Design for a width of 767px */
+	
+	@media only screen and (min-width:767px) and (max-width:959px) {
+		.container								{width:748px;}
+		.container .one-fourth				{width:172px;}
+		.container .one-third					{width:236px;}
+		.container .two-thirds				{width:492px;}
+		.container .one-half					{width:364px;}
+	}
+
+	/* Note:Design for a width 1024 Desktop
+	================================================== */
+	
+	@media only screen and (min-width:960px) and (max-width:1199px) {
+		.container								{width:940px;}
+		.container .one-fourth				{width:220px;}
+		.container .one-third					{width:300px;}
+		.container .two-thirds				{width:620px;}
+		.container .one-half					{width:460px;}
+		.container .column					{float:left;}
+	}
+
+
+/*  #Mobile (Portrait)
+================================================== */
+
+	/* Note:Design for a width of 320px */
+	
+	@media only screen and (max-width:767px) {
+		.container								{width:300px;}
+		.container .one-fourth,
+		.container .one-third,
+		.container .two-thirds,
+		.container .one-half,
+		.container .column,
+		.container .column.last,
+		.col2-set .col-1,
+		.col2-set .col-2						{width:300px;float:none;margin-right:0;}
+	}
+
+
+/* #Mobile (Landscape)
+================================================== */
+	
+	/* Note:Design for a width of 480px */
+	
+	@media only screen and (min-width:480px) and (max-width:767px) {
+		.container								{width:420px;}
+		.container .one-fourth,
+		.container .one-third,
+		.container .two-thirds,
+		.container .one-half,
+		.container .column,
+		.container .column.last				{width:420px;}
+	}
+   

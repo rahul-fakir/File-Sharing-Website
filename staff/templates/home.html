@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+        	<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="{% url "staff:home" %}">
+    			        Users
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="{% url "staff:item" %}">
+                        Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:categories" %}">
+                        Categories
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:libraries" %}">
+                        Libraries
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            Profile / Items
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    .same-row {
+        display: inline-block;
+    }
+</style>
+<div class="container">
+    <div class="col-md-2 well" style="margin-top: 10px; margin-right: 25px">
+        <div class="sidebar-nav">
+            <ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="{% url "staff:home" %}">
+    			        Users
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="{% url "staff:item" %}">
+                        Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:categories" %}">
+                        Categories
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:libraries" %}">
+                        Libraries
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8" style="margin-top: 12px;">
+        <div>
+            <p class="same-row" style="margin-bottom: 0px;margin-left: 6px;font-size: 17px;">Avatar</p> 
+            <p class="same-row" style="margin-bottom: 0px;margin-left: 55px;font-size: 17px;">Full name</p> 
+            <p class="same-row" style="margin-bottom: 0px;margin-left: 115px;font-size: 17px;">Add/Remove admin</p> 
+            <p class="same-row" style="margin-bottom: 0px;margin-left: 40px;font-size: 17px;">Edit/Delete</p>
+            <hr />
+        </div>
+        {% for user in users %}
+            <div>
+                {% if user.avatar %}
+                    <img src="/{{ user.avatar }}"class="img-circle same-row" width="45" height="45">
+                {% else %}
+                    <img src="#"class="img-circle same-row" width="45" height="45">
+                {% endif %}
+                    <p class="same-row" style="margin-bottom: 0px;margin-left: 62px;font-size: 20px;">{{ user.firstname }}  {{ user.lastname }}</p>
+                    <!--<a href="{% url "staff:edit-profile" user.id %}" class="btn same-row" style="float: right">Edit</a>-->
+                    <div class="col-sm-4 btn-group prof" style="padding:1em; float: right;">
+                        <a style="line-height: 1em;height:initial" data-id="79" href="{% url "staff:edit-profile" user.id %}" class="btn edit" title="edit"><i class="fa fa-pencil "></i></a>
+                        <a style="line-height: 1em;height:initial" 
+                        data-id="79" type="button" class="btn delete"
+                        onclick="location.href='/admins/?delete_id={{ user.id }}';" title='delete'><i class="fa fa-trash"></i></a>
+                    </div>
+                    {% if user.is_staff %}
+                        <a data-id="79" type="button" class="same-row" style="padding:1em; float: right;"
+                        onclick="location.href='/admins/?remove_staff={{ user.id }}';"><i class="fa fa-plus"></i>
+                         Remove from admins
+                        </a>
+                    {% else %}
+                        <a data-id="79" type="button" class="same-row" style="padding:1em; float: right;"
+                        onclick="location.href='/admins/?make_staff={{ user.id }}';"><i class="fa fa-plus"></i>
+                         Add to admins
+                        </a>
+                    {% endif %}
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}

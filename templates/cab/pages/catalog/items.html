@@ -1,0 +1,555 @@
+{% extends "cab/baseCab.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block myCss %}
+    <link href="{% static 'cab/js/datatables/jquery.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'cab/js/datatables/buttons.bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'cab/js/datatables/fixedHeader.bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'cab/js/datatables/responsive.bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'cab/js/datatables/scroller.bootstrap.min.css'%}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'cab/css/select/select2.min.css'%}" rel="stylesheet">
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="">
+          <div class="page-title">
+            <div class="title_left">
+              <h3>Items <small>The list of items on the site</small></h3>
+            </div>
+
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Items</h2>
+                  <a href="#addCat" class="btn btn-success" type="button" data-toggle="modal" name="addToCategories" style="margin-left:2%;">Add</a>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+
+                  <!-- start project list -->
+                  <table id="datatable-categories" class="table table-striped table-bordered projects">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Foto</th>
+                        <th>Information</th>
+                        <th>Date published</th>
+                        <th>Views</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for i in items %}
+                      <tr>
+                        <td>{{i.id}}</td>
+                        <td>
+                          <a><span id="name-{{i.id}}">{{i.name}}</span></a>
+                          <br />
+                          <small>Create {{i.date_published}}</small>
+                        </td>
+                        <td>
+                          <img style="width:100px" src="/{{i.main_foto.path}}" alt=""/>
+                        </td>
+                        <td>
+                            {{i.information|slice:"100"}}
+                        </td>
+                        <td class="project_progress">
+                          <!--<div class="progress progress_sm">
+                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
+                          </div>-->
+                          <small>{{i.date_published}}</small>
+                        </td>
+                        <td>
+                          {{i.views}}
+                        </td>
+                          
+                        <td>
+                          <button class="btn btn-info btn-xs edit" type="button" data-id="{{i.id}}">
+                              <i class="fa fa-pencil"></i> Edit
+                          </button>
+                          <button data-id="{{i.id}}" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete </button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+
+                    </tbody>
+                  </table>
+                  <!-- end project list -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="statusModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="nameEdit" required="required" class="form-control col-md-7 col-xs-12" placeholder="Name item...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inform" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <textarea id="informEdit" class="form-control col-md-7 col-xs-12" name="inform" placeholder="Description element..."></textarea>
+              </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button data-id="" type="button" class="btn btn-primary submit">Yes!</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="statusModalLabel">Delete?</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Delete?</h4>
+        <p>Are you sure you want to delete ?<span style="color:red"></br>( Once removed, return the data can not be ! )</span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button data-id="" type="button" class="btn btn-primary submit">Yes!</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="addCatModalLabel">Add new item?</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12" placeholder="Name item...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inform" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <textarea id="inform" class="form-control col-md-7 col-xs-12" name="inform" placeholder="Description element..."></textarea>
+              </div>
+            </div>
+            <input type="hidden" name="fotos" id="fotos" />
+        </form>
+        
+        <form class="dropzone form-horizontal form-label-left" method="POST">
+            {% csrf_token %}
+            <input id="file_input" name="file" type="file" multiple/>
+        </form>
+        
+          <p class="errors" style="color:red"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">End</button>
+        <button type="button" class="btn btn-primary submit">Yes!</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block myScripts%}
+
+    <script src="{% static 'cab/js/datatables/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.bootstrap.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.buttons.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/buttons.bootstrap.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/jszip.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/pdfmake.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/vfs_fonts.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/buttons.html5.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/buttons.print.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.fixedHeader.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.keyTable.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.responsive.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/responsive.bootstrap.min.js'%}"></script>
+    <script src="{% static 'cab/js/datatables/dataTables.scroller.min.js'%}"></script>
+    <script src="{% static 'cab/js/dropzone/dropzone.js'%}"></script>
+<script src="{% static 'cab/js/select/select2.full.js'%}"></script>
+<script>
+  var handleDataTableButtons = function() {
+      "use strict";
+      0 !== $("#datatable-categories").length && $("#datatable-categories").DataTable({
+        "processing": true, //При подгрузке страницы показывать таблицу или нет
+        "serverSide": false, // фильтрация на стороне сервера
+        
+        "iDisplayLength": 50,
+        
+        dom: "Bfrtip",
+        buttons: [{
+          extend: "csv",
+          className: "btn-sm"
+        }, {
+          extend: "excel",
+          className: "btn-sm"
+        }, {
+          extend: "pdf",
+          className: "btn-sm"
+        }, {
+          extend: "print",
+          className: "btn-sm"
+        }],
+        responsive: !0
+      })
+    },
+    TableManageButtons = function() {
+      "use strict";
+      return {
+        init: function() {
+          handleDataTableButtons()
+        }
+      }
+    }();
+    TableManageButtons.init();
+
+    //Модальные окна
+
+    
+
+    //изменить
+    $('button.edit').click(function() {
+      $('#statusModal').modal('show');
+    });
+
+    
+    //загрузка формы
+    $(".dropzone").dropzone({ 
+      url: "{% url 'cab.item.addAjaxImg' %}",
+      init: function(){
+        this.on("success", function(file, request){
+          $('#fotos').val(
+            $('#fotos').val() + request.foto + ";"  
+          )
+        });
+        this.on("error", function(file){
+          this.removeFile(file);
+        });
+      },
+    });
+    
+    
+    //опубликовать категорию
+    $('#statusModal').on('click', 'button.statusBtn', function() {
+        var _this = $('#statusModal button.submit').attr('data-id');
+        $.ajax({
+            url: "#",
+            type: 'POST',
+            data: {
+                id: _this,
+            },
+            success: function(data){
+                //alert("Успех");
+                if( $('button.status[data-id='+_this+']').attr('data-status') == "false" )
+                    $('button.status[data-id='+_this+']').attr('data-status', 'true').removeClass('btn-danger').addClass('btn-success').text("Опубликовано");
+                else
+                  $('button.status[data-id='+_this+']').attr('data-status', 'false').removeClass('btn-success').addClass('btn-danger').text("Не опубликовано");
+            },
+            error: function(data) {
+                alert("Ошибка смены статуса! Обратитесь к администартору ресурса!");
+            },            
+        // CSRF механизм защиты Django
+            beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                function getCookie(name) {
+                    var cookieValue = null;
+                    if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });// ajax
+
+        $('#statusModal').modal('hide');
+        
+    });
+  
+    //Добавление категорий
+    $(".select2_single_main").select2({
+          placeholder: "Выберите главную категорию",
+          allowClear: true,
+          width: '100%'
+    });
+    
+
+
+
+
+
+    $('#addCat button.submit').click(function() {
+
+
+        
+        var errors = new Array();
+
+        if( $('#name').val() == "" )
+          errors.push("Please enter a name !</br>");
+
+        if( $('#inform').val() == "" )
+          errors.push("Please enter a description of the category !</br>");
+
+        if( !errors.length ){
+            $.ajax({
+                url: "{% url 'cab.item.addAjax' %}",
+                type: 'POST',
+                data: {
+                    name: $('#name').val(),
+                    inform: $('#inform').val(),
+                    fotos: $('#fotos').val()
+                },
+                success: function(data){
+                    window.location.href = "{% url 'cab.item' %}";
+                },
+                error: function(data) {
+                    alert('ERROR!');
+                },            
+            // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                    console.log('-------------before send--');
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+        }
+        else{
+          $('#addCat p.errors').html("");
+          for(var i in errors)
+            $('#addCat p.errors').append(errors[i]);
+        }
+
+    });
+  
+
+  $('button.delete').click(function() {
+    $('#deleteModal button.submit').attr('data-id', $(this).attr('data-id'));
+    $('#deleteModal').modal('show');
+  });
+  
+  
+  $('table button.edit').click(function() {
+    $.ajax({
+                url: "{% url 'cab.item.openAjax' %}",
+                type: 'POST',
+                data: {
+                    id: $(this).attr('data-id'),
+                },
+                success: function(data){
+                    //window.location.href = "{% url 'cab.item' %}";
+                    $('#editModal #nameEdit').val(data.name);
+                    $('#editModal #informEdit').val(data.inform);
+                    $('#editModal button.submit').attr('data-id', data.id);
+                    $('#editModal').modal('show');
+                },
+                error: function(data) {
+                    alert('ERROR!');
+                },            
+            // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                    console.log('-------------before send--');
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+  });
+  
+  $('#deleteModal button.submit').click(function() {
+    $.ajax({
+                url: "{% url 'cab.item.delAjax' %}",
+                type: 'POST',
+                data: {
+                    id: $(this).attr('data-id'),
+                },
+                success: function(data){
+                    window.location.href = "{% url 'cab.item' %}";
+                },
+                error: function(data) {
+                    alert('ERROR!');
+                },            
+            // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                    console.log('-------------before send--');
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+  });
+  
+  
+  $('#editModal button.submit').click(function() {
+    $.ajax({
+      url: "{% url 'cab.item.editAjax' %}",
+      type: 'POST',
+      data: {
+          id: $(this).attr('data-id'),
+          name: $("#editModal #nameEdit").val(),
+          inform: $('#editModal #informEdit').val()
+      },
+      success: function(data){
+          window.location.href = "{% url 'cab.item' %}";
+      },
+      error: function(data) {
+          alert('ERROR!');
+      },            
+      // CSRF механизм защиты Django
+        beforeSend: function(xhr, settings) {
+        console.log('-------------before send--');
+          function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie != '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = jQuery.trim(cookies[i]);
+                            // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+                }
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });// ajax
+  });
+  
+</script>
+{% endblock %}

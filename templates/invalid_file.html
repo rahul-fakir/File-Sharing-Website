@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block mycss %}
+<link rel="stylesheet" href="{% static 'css/catalog.css'%}">
+{% endblock %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="/">
+    			        dashboard
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <!--<a href="/catalog">
+                        EXPLORE
+                    </a>-->
+                        <a tabindex="-1" href="#">EXPLORE</a>
+                        <ul class="dropdown-menu" style="left:100; margin-top: 26px;">
+                            {% for category in categories %}
+                            <li style="text-align:center">
+                                <a href="{{ category.url }}">
+                                    {{ category }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/about">
+                        About us
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/profile">
+                        PROFILE / ITEMS
+                    </a>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            PROFILE / ITEMS
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <p class="text-center">Invalid File Type</p>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}

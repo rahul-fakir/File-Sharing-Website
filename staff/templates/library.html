@@ -1,0 +1,288 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block mycss %}
+<link rel="stylesheet" href="{% static 'css/profile.css'%}">
+<script src="{% static 'cab/js/tags/bootstrap-tagsinput.js'%}"></script>
+{% endblock %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="{% url "staff:home" %}">
+    			        Users
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="{% url "staff:item" %}">
+                        Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:categories" %}">
+                        Categories
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:libraries" %}">
+                        Libraries
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            Profile / Items
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-2 well" style="margin-top: 10px; margin-right:25px;">
+        <div class="sidebar-nav">
+            <ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="{% url "staff:home" %}">
+    			        Users
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="{% url "staff:item" %}">
+                        Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:categories" %}">
+                        Categories
+                    </a>
+                </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="{% url "staff:libraries" %}">
+                        Libraries
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+      <table class="table">
+          <tbody>
+              {% for libraries in libraries_all %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><p style="margin-bottom: 0px;margin-left: 62px;font-size: 32px;">{{ libraries }}</p></td>
+                <!--<a style="line-height: 1em;height:initial" data-id="79" href="{% url "staff:edit-profile" user.id %}" class="btn edit"><i class="fa fa-pencil "></i></a>-->
+                <td><a href="{% url "staff:libraries" %}?delete_id={{ libraries.id }}" style="line-height: 1em;height:initial;width: 111px;" class="btn"><i class="fa fa-pencil "></i> Delete</a></td>
+                <td><a href="{% url "staff:libraries-edit" libraries.id %}" style="line-height: 1em;height:initial;width: 111px;" class="btn"><i class="fa fa-pencil "></i> Edit</a></td>
+              </tr>
+              {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="container">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <hr>
+        <button style="line-height: 1em;height:initial" class="btn btn-info" type="button" data-toggle="modal" data-target="#addCat">Add</button>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="modal fade" id="addCat" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="addCatModalLabel">Add new Library?</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal form-label-left" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12" placeholder="Name of library">
+              </div>
+            </div>
+
+           
+            <input type="hidden" name="fotos" id="fotos_inputAdd" />
+        </form>
+        
+        <form class="dropzoneAddImage dropzone form-horizontal form-label-left" method="POST">
+            {% csrf_token %}
+        </form>
+        
+          <p class="errors" style="color:red"></p>
+      </div>
+      <div class="modal-footer">
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-default" data-dismiss="modal">End</button>
+        <button style="display:inline-block; height: 3em; padding: 0px 10px;" type="button" class="btn btn-primary submit">Yes</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="{% static 'cab/js/dropzone/dropzone.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js'%}"></script>
+  <!--<script type="text/javascript" src="{% static 'cab/js/cropping/cropper.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/cropping/main2.js'%}"></script>-->
+<script type="text/javascript">
+
+$(function() {
+    var myDropzone2 = new Dropzone(".dropzoneAddImage", {
+        url: "{% url 'cab.downloadAvatar' %}",
+        dictDefaultMessage: 'Drop image here to upload(one image is allowed)',
+        acceptedFiles: 'image/*'
+
+    });
+    //croppImage.replace($('#inputImage').val());
+    myDropzone2.on("success", function(file, request){
+        /*if($('#fotos_inputAdd').val() == "")
+        {
+            $('#addCat').modal('hide');
+            $('#cropperImgModal #inputImage').val('/' + request.foto.replace('media/','static/'));
+            $('.cropper-container > img').attr('src', $('#inputImage').val());
+            $('.cropper-cropbox > span.cropper-viewer img').attr('src', $('#inputImage').val());
+            
+            $('#cropperImgModal').modal('show');
+        }
+        else
+        {*/
+            $('#fotos_inputAdd').val(
+                $('#fotos_inputAdd').val() + request.foto + ";"  
+            );
+        //}
+        
+    });
+    myDropzone2.on("error", function(file){
+        this.removeFile(file);
+        alert("Error download");
+    });
+
+    $('#addCat button.submit').click(function() {
+        if( ($('#name').val() == "") )
+            alert("Please fill in the fields");
+        //else if ( $('#fotos_inputAdd').val() == "" )
+        //    alert("Please Download images");
+        else{
+            $.ajax({
+              url: "{% url 'staff:addlibraries' %}",
+              type: 'POST',
+              data: {
+                  name: $('#name').val(),
+                  fotos: $('#fotos_inputAdd').val(),
+              },
+              success: function(data){
+                  window.location.href = "{% url 'staff:libraries' %}";
+              },
+              error: function(data) {
+                  alert('ERROR!');
+              },            
+              // CSRF механизм защиты Django
+                beforeSend: function(xhr, settings) {
+                console.log('-------------before send--');
+                  function getCookie(name) {
+                      var cookieValue = null;
+                      if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+        }
+    });
+});
+</script>
+{% endblock %}

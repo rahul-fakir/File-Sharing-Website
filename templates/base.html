@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<html>
+<head>
+{% include "item/head.html" %}
+{% block mycss %}
+{% endblock %}
+</head>
+
+<body>
+  
+{% block header %}
+  <header>
+  </header>
+{% endblock %}
+<!--КОНЕЦ ШАПКИ-->
+
+<div style="min-height:60%">
+{% block content%}{% endblock %}
+</div>
+
+{% block footer %}
+  <footer>
+		<ul class="footer-social">
+  		<li><a href="" target="_blank"><i class="fa fa-twitter"></i></a></li>
+  		<li><a href="" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+  		<li><a href="" target="_blank"><i class="fa fa-instagram"></i></a></li>
+  		<li><a href="" target="_blank"><i class="fa fa-facebook"></i></a></li>
+  	</ul>
+  	<p class="copy tac">The website is designed: BioBots © 2016 </p>
+  </footer>
+{% endblock %}
+
+{% block scripts %}
+{% include "item/scripts.html" %}
+{% endblock %}
+
+
+</body>
+</html>
+

@@ -1,0 +1,69 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    
+</head>
+<body>
+{% block content %}
+    
+    
+<div class="center">
+	<div class="header">
+		<!--<h1>Входв админку магазина</h1>-->
+	</div>
+	<form method="post" action="">
+		{% csrf_token %}
+	<div class="form">
+		<h1>Вход в админку</h1>
+		<img src="{% static 'u4_line.png' %}"/>
+		<div style="height:70px;">
+			<div class="inputText" style="margin: 15px !important;">Введите логин</div>
+			<!--<input id="login" class="input" style="float:left; margin-top:10px;" type="text" value="login">-->
+			<input id="id_username" class="input" style="float:left; margin-top:10px;" maxlength="254" name="username" type="text">
+		</div>
+		<div>
+			<div class="inputText" style="margin: 15px !important;">Введите пароль</div>
+			<!--<input id="passwd" class="input" style="float:left; margin-top:10px;" type="text" value="passwd">-->
+			<input id="id_password" class="input" style="float:left; margin-top:10px;" name="password" type="password">
+			
+		</div>
+		
+		<div style="margin-top:55px;">
+			{% for field in form %}
+			{% if field.errors %}
+			<p style="margin:0px;">{{ field.errors }}</p>
+			{% else %}
+			<p style="margin:0px;">*никому не сообщайте ваши</p>
+			<p style="margin:0px;">персональные данные, даже нам ;)</p>
+			{% endif %}
+			{% endfor %}
+		</div>
+		<img src="{% static 'u4_line.png' %}"/>
+      	<div id="u10" class="ax_html_button">
+        	<!--<input id="loginSubmit" class="submit" style="margin-left:15px;" type="submit" value="ВОЙТИ"/>-->
+        	<input class="submit" style="margin-left:15px;" type="submit" value="{% trans 'Log in' %}" />
+      	</div>
+		<a href="http://127.0.0.1:8000/register">Регистрация</a>
+	</div>
+</form>
+</div>
+{% endblock %}
+</body>
+</html>
+
+			
+
+    
+  <!--  <input type="hidden" name="next" value="{{ next }}" />-->
+
+
+
+
+

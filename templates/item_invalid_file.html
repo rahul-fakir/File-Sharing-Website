@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block mycss %}
+<link rel="stylesheet" href="{% static 'css/catalog.css'%}">
+{% endblock %}
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="/">
+    			        dashboard
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <!--<a href="/catalog">
+                        EXPLORE
+                    </a>-->
+                        <a tabindex="-1" href="#">EXPLORE</a>
+                        <ul class="dropdown-menu" style="left:100; margin-top: 26px;">
+                            {% for category in categories %}
+                            <li style="text-align:center">
+                                <a href="{{ category.url }}">
+                                    {{ category }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/about">
+                        About us
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/profile">
+                        PROFILE / ITEMS
+                    </a>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            PROFILE / ITEMS
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/login">Join / Sign in</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+    
+    <div class="container catalog">
+
+        <div class="row item">
+            <div class="col-sm-12">
+                
+                <div class="row head">
+                    <div class="col-sm-1 text-right" style="margin-left:3em">
+                        <img class="img-circle" style="margin-top:5px;width:50; height:50" src="/{{item.user.avatar}}" alt="" />
+                    </div>
+                    <div class="col-sm-10 text-left">
+                        <h2>{{item.name}}</h2>
+                        <p>Published {{item.date_published}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8" style="padding:0 4em 4em 4em">
+                        <img class="main_foto" style="border:1px solid #ccc" src="/{{item.main_foto.name}}" alt="" />
+                        <div class="row" style="margin-top: 1em;overflow-y:hidden; overflow-x:auto">
+                            {% for i in f %}
+                            {% if forloop.counter == 1 %}
+                                <div class="col-sm-2 min-images active">
+                                    <img class="min-img-item active" src="/{{i}}" alt="" />
+                                </div>
+                            {% else %}
+                                <div class="col-sm-2 min-images">
+                                    <img class="min-img-item" src="/{{i}}" alt="" />
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-sm-4 right-nav">
+                        <ul class="list-unstyled">
+                            <li class=like style="padding:10px; border-bottom:1px solid #ccc">
+                                <i class="fa fa-heart pull-left"></i>Like
+                                <span class="pull-right">{{like}}</span>
+                            </li>
+                            <li style="padding:10px">
+                                <i class="fa fa-eye pull-left"></i>Watch
+                                <span class="pull-right">{{item.views}}</span>
+                            </li>
+                        </ul>
+                        
+                        
+                    </div>
+                     
+                   
+                    
+                      <h3 style="padding-top:10%">Tags</h3>
+                    <div class="col-sm-4 right-nav">
+                       
+                        <ul class="list-unstyled">
+                            {% for i in tags %}
+                                {% if forloop.counter == 1 %}
+                                    <li style="padding:10px;">
+                                {% else %}
+                                    <li style="padding:10px; border-top:1px solid #ccc">
+                                {% endif %}
+                                <span>{{i}}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                        </br>
+                <div style="padding:20px; margin-top:10px">
+                        <button style="height:initial" class="btn btn-success downloadAll" type="button" name="download">
+                            <i class="fa fa-download"></i> Download This Item
+                        </button>
+                    </div>
+                </div>
+            
+                <div class="row menu">
+                    <div class="col-sm-4 text-center details">
+                        <i class="fa fa-info"></i>
+                        <p>Item Details</p>
+                    </div>
+                    <div class="col-sm-4 text-center files">
+                        <i class="fa fa-files-o"></i>
+                        <p>Item Files</p>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <i class="fa fa-info"></i>
+                        <p>Item Comments</p>
+                    </div>
+               </br>
+               </br>
+               </br>
+               </br>
+                <div class="row bottom" style="margin-top:20px">
+                    <div id="information" class="col-sm-8" style="">
+                        <h2 style="color:#606060;border-bottom:0px solid #ccc"><i class="fa fa-book"></i> Summary</h2>
+                        <p style=" solid #ccc">{{item.information}}</p>
+                    </div>
+                    <div id="files" class="col-sm-8" style="">
+                        <ul class="list-unstyled files-list">
+                        {% for i in files %}
+                            {% if forloop.counter == 1 %}
+                                <li>
+                            {% else %}
+                                <li style="border-top: 1px solid #ccc;">
+                            {% endif %}
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <img style="width:50px" src="{% static 'images/file.png'%} " alt="" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p style="line-height:1em">Name: {{i.name}} | 
+                                            Published: {{i.date_published}}</br>
+                                            Downloads: {{i.dowloads}} | 
+                                            Size: {{i.size}} bytes</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            {% if user.is_authenticated %}
+                                                <button style="display: inline-block;" data-href="/{{i.f.name}}" class="btn download login" type="button" data-id="{{i.id}}"><i class="fa fa-download"></i></button>
+                                                <a href="{% url 'showFile' i.id %}"><button style="display: inline-block;" class="btn download" type="button"><i class="fa fa-eye"></i></button></a>
+                                            {% else %}
+                                                <button class="btn download" type="button" data-id="{{i.id}}"><i class="fa fa-download"></i></button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                     <!--<div class="col-sm-4">
+                        <h3 style="color:#606060;border-bottom:1px solid #ccc">Thing info</h3>
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-area-chart"></i> {{item.views}} Views
+                            </li>
+                            <li>
+                                <i class="fa fa-download"></i> <span class="allDownloadsFiles">{{item.download}}</span> Downloads
+                            </li>
+                        </ul>
+                    </div>-->
+               
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+    $(function () {
+        $('.min-images').click(function() {
+            $('.main_foto').attr('src', $('> img', this).attr('src'));
+            $('.min-images img').removeClass('active');
+            $('> img', this).addClass('active');
+        });
+        
+        
+        $('#files').hide();
+        $('.item .menu > div').click(function() {
+            if($(this).hasClass('details')){
+                $('#files').hide();
+                $('#information').show();
+            }
+            else if ($(this).hasClass('files')){
+                $('#information').hide();
+                $('#files').show();
+            }
+        });
+        
+        
+        $('.files-list .download').click(function() {
+            {% if user.is_authenticated %}
+                if ($(this).hasClass('login'))
+                {
+                    _url = $(this).attr('data-href');
+                    $.ajax({
+                      url: "{% url 'cab.addDownloadFile' %}",
+                      type: 'POST',
+                      data: {
+                          id: $(this).attr('data-id'),
+                      },
+                      success: function(data){
+                          window.open(_url);
+                      },
+                      error: function(data) {
+                          alert('ERROR!');
+                      },            
+                      // CSRF механизм защиты Django
+                        beforeSend: function(xhr, settings) {
+                        console.log('-------------before send--');
+                          function getCookie(name) {
+                              var cookieValue = null;
+                              if (document.cookie && document.cookie != '') {
+                                        var cookies = document.cookie.split(';');
+                                        for (var i = 0; i < cookies.length; i++) {
+                                            var cookie = jQuery.trim(cookies[i]);
+                                            // Does this cookie string begin with the name we want?
+                                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                            break;
+                                        }
+                                    }
+                                }
+                                return cookieValue;
+                                }
+                                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                    // Only send the token to relative URLs i.e. locally.
+                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                }
+                            }
+                        });// ajax
+                }
+            {% else %}
+                alert('Please login to be able to download the file');
+            {% endif %}
+        });
+            
+            
+            
+            $('button.downloadAll').click(function() {
+                {% if user.is_authenticated %}
+                $.ajax({
+                      url: "{% url 'cab.addDownloadFileAll' %}",
+                      type: 'POST',
+                      data: {
+                          id: '{{item.id}}',
+                      },
+                      success: function(data){
+                          window.open('/' + data.zip);
+                      },
+                      error: function(data) {
+                          alert('ERROR!');
+                      },            
+                      // CSRF механизм защиты Django
+                        beforeSend: function(xhr, settings) {
+                        console.log('-------------before send--');
+                          function getCookie(name) {
+                              var cookieValue = null;
+                              if (document.cookie && document.cookie != '') {
+                                var cookies = document.cookie.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = jQuery.trim(cookies[i]);
+                                    // Does this cookie string begin with the name we want?
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                        }
+                        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                            // Only send the token to relative URLs i.e. locally.
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        }
+                    }
+                });// ajax
+                {% else %}
+                    alert('Please login');
+                {% endif %}
+            });
+            
+        var q = 0;
+        {% for i in files %}
+        q += {{i.dowloads}};
+        {% endfor %}
+        
+        $('.allDownloadsFiles').html(q);
+        
+        
+        
+        $('.like').click(function() {
+            {% if user.is_authenticated %}
+            $.ajax({
+                  url: "{% url 'like' %}",
+                  type: 'POST',
+                  data: {
+                      id: '{{item.id}}',
+                  },
+                  success: function(data){
+                      //window.open('/' + data.zip);
+                      if(data.result == true) {
+                          if (Number($('.like span').text()) > 0)
+                              $('.like span').html(
+                                   Number($('.like span').text()) - 1
+                                );
+                      }
+                      else
+                            $('.like span').html(
+                               Number($('.like span').text()) + 1
+                            );
+                  },
+                  error: function(data) {
+                      alert('ERROR!');
+                  },            
+                  // CSRF механизм защиты Django
+                    beforeSend: function(xhr, settings) {
+                    console.log('-------------before send--');
+                      function getCookie(name) {
+                          var cookieValue = null;
+                          if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                // Does this cookie string begin with the name we want?
+                            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                    }
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });// ajax
+            {% else %}
+                alert('Please login');
+            {% endif %}
+        });
+        
+        
+    });
+    
+    
+</script>
+
+{% endblock %}

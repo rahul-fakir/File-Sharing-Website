@@ -1,0 +1,28 @@
+{% load i18n %}
+{% load url from future %}
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Django Registration Test App</title>
+    <link href="{% static 'registration.css' %}" type="text/css" rel="stylesheet"/>
+</head>
+
+<body>
+
+    <div id="content">
+    <h1>{% block title %}{% endblock %}</h1>
+    {% block content %}
+
+    {% endblock content %}
+    </div>
+
+    <div id="footer">
+    {% block footer %}
+
+    {% endblock %}
+    </div>
+</body>
+
+</html>

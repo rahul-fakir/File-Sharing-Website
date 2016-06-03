@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block header %}
+<header>
+	<div class="container" style="padding:0px">
+		<div class="row">
+			<a href="/" class="logo">
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a>
+            <div class="home-banner-inner col-sm-3" style="padding:0px; margin-left:10px">
+    			<form role="search" class="form-search" method="get" id="searchform" action="{% url 'search' %}">
+            		<div class="input-group">
+            			<input style="height:inherit;width:100%" type="text" class="form-control" placeholder="Enter a Search Item" value="" name="s" id="s">	
+            			<span class="input-group-btn">
+            				<button style="height:100%" type="submit" class="banner-btn btn-append"><i class="fa fa-search fa- "></i></button>
+            			</span>
+            			<input type="hidden" value="incsub_wiki" name="post_type" id="post_type">
+            		</div>
+            	</form>
+        	</div>
+			<ul id="menu-test" class="mainNav">
+			    <li id="menu-item-7" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+    			    <a href="/">
+    			        dashboard
+    		        </a>
+    	        </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/catalog">
+                        EXPLORE
+                    </a>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/about">
+                        About us
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/profile">
+                        Profile / Items
+                    </a>
+                </li>
+                <li id="menu-item-8" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                    <a href="/logout">
+                        logout
+                    </a>
+                </li>
+                {% else %}
+                <li id="menu-item-8" class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                    <a href="/login">Join / Sign in</a>
+                </li>
+                {% endif %}
+            </ul>
+			<button id="showLeft"><i class="fa fa-bars open-nav"></i> <i class="fa fa-times close-nav"></i></button>
+			<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left mobile" id="cbp-spmenu-s1">
+				<h3>Menu</h3>
+				<ul id="menu-test-1" class="mobileNav">
+				    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+				        <a href="/">
+				            dashboard
+			            </a>
+		            </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/catalog">
+                            EXPLORE
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/about">
+                            About us
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/profile">
+                            Profile / Items
+                        </a>
+                    </li>
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8">
+                        <a href="/logout">
+                            logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="first-menu-item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-7">
+                        <a href="/login">Sign in / Join</a>
+                    </li>
+                    {% endif %}
+                </ul>			
+            </nav>
+			
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+    
+    <div class="">
+    <a class="hiddenanchor" id="toregister"></a>
+    <a class="hiddenanchor" id="tologin"></a>
+
+    <div id="wrapper">
+      <div id="login" class="animate form">
+        <section class="login_content" style="width:50%; margin:0 auto">
+          <form method="post" action="{% url 'cab.registerPost' %}">
+              {% csrf_token %}
+              </br>
+              <center>
+            <h2>Register With </h2>
+			    <img src="{% static 'images/logo.png'%}" alt="" />
+			 </a> </center>
+            </br>
+            {{form}}
+            <!--<div style="margin:10px; padding:10px;">
+              <input style="height:40px" id="id_firstname" type="text" class="form-control" placeholder="Firstname" maxlength="150" name="firstname" required="" />
+            </div>
+            <div style="margin:10px; padding:10px;">
+              <input style="height:40px" id="id_lastname" type="text" class="form-control" placeholder="Lastname" maxlength="150" name="lastname" required="" />
+            </div>
+            <div style="margin:10px; padding:10px;">
+              <input style="height:40px" id="id_email" type="text" class="form-control" placeholder="E-mail" maxlength="150" name="email" required="" />
+            </div>
+            <div style="margin:10px; padding:10px;">
+              <input style="height:40px" name="password" type="password" id="id_password" class="form-control" placeholder="Password" required="" />
+            </div>
+            <div style="margin:10px; padding:10px;">
+              <input style="height:40px" name="password2" type="password" id="id_password2" class="form-control" placeholder="Repeat password" required="" />
+            </div>-->
+            </br>
+            <h5><span style="color:#FF0000">Please Note All Fields With (*) Are Required </h5>
+            </br>
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <input style="margin: 0px;width: 100%;height: 2em;line-height:1em" class="btn btn-default submit" type="submit" value="Create an account Now"/>
+                </div>
+                <!--<div class="col-sm-4">
+                  <a href="/login" style="height: 2em;line-height:1em" class="btn btn-info">New To Biobot</a>
+                </div>-->
+              <div class="col-sm-4"></div>
+            </div><!--
+            <div class="clearfix"></div>
+            <div class="separator">
+
+              <div class="clearfix"></div>
+              <br />
+
+            </div>-->
+            
+          </form>
+          <!-- form -->
+         
+        </section>
+        <!-- content -->
+      </div>
+
+    </div>
+  </div>    
+
+{% endblock %}

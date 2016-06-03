@@ -1,0 +1,365 @@
+{% extends "cab/baseCab.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block myCss %}
+  <link href="{% static 'cab/css/select/select2.min.css'%}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="">
+          <div class="page-title">
+            <div class="title_left">
+            	{% if request.path == "/cab/catalog/tovars/addToCart/" %}
+              		<h3>Добавление товара, вручную</h3>
+              	{% else %}
+              		<h3>Редактирование товара {{tovar.name}}</h3>
+              	{% endif %}
+            </div>
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Добавление товара <small>Добавление товара происходит в пару шагов</small></h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Settings 1</a>
+                        </li>
+                        <li><a href="#">Settings 2</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+
+                  <!-- Smart Wizard -->
+                  <p>Пожалуйста заполните все поля внимательно!</p>
+                  <div id="wizard" class="form_wizard wizard_horizontal">
+                    <ul class="wizard_steps">
+                      <li>
+                        <a href="#step-1">
+                          <span class="step_no">1</span>
+                          <span class="step_descr">
+                                            Шаг 1<br />
+                                            <small>Шаг 1 Основные данные</small>
+                                        </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#step-2">
+                          <span class="step_no">2</span>
+                          <span class="step_descr">
+                                            Шаг 2<br />
+                                            <small>Шаг 2 Связанные данные</small>
+                                        </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#step-3">
+                          <span class="step_no">3</span>
+                          <span class="step_descr">
+                                            Шаг 3<br />
+                                            <small>Шаг 3 Фотографии</small>
+                                        </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#step-4">
+                          <span class="step_no">4</span>
+                          <span class="step_descr">
+                                            Шаг 4<br />
+                                            <small>Шаг 4 Аттрибуты</small>
+                                        </span>
+                        </a>
+                      </li>
+                    </ul>
+                    <div id="step-1">
+                      <form class="form-horizontal form-label-left">
+
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Название <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12" placeholder="Название товара...">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="article">Артикул <span class="required">*</span>
+                          </label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="text" id="article" name="article" required="required" class="form-control col-md-7 col-xs-12" placeholder="Артикул...">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="price" class="control-label col-md-3 col-sm-3 col-xs-12">Цена за 1 ед.т.</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="price" class="form-control col-md-7 col-xs-12" type="Number" name="price" placeholder="Цена за 1 ед.т. ...">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="inform" class="control-label col-md-3 col-sm-3 col-xs-12">Описание товара</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea id="inform" class="form-control col-md-7 col-xs-12" type="text" name="inform" placeholder="Введите описание товара..."></textarea>
+                          </div>
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="kol" class="control-label col-md-3 col-sm-3 col-xs-12">Кол-во на складе</label>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="kol" class="form-control col-md-7 col-xs-12" type="Number" name="kol" placeholder="Кол-во на складе...">
+                          </div>
+                        </div>
+
+                      </form>
+
+                    </div>
+
+
+                    <div id="step-2">
+						<form class="form-horizontal form-label-left">
+
+	                        <div class="form-group">
+		                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Мета теги</label>
+		                      <div class="col-md-6 col-sm-6 col-xs-12">
+		                        <input id="meta" type="text" class="tags form-control col-md-7 col-xs-12" value="" />
+		                        <div id="suggestions-container"></div>
+		                      </div>
+		                    </div>
+	                        
+	                        <div class="form-group">
+	                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Заголовок h1 и заголовок страницы <span class="required">*</span>
+	                          </label>
+	                          <div class="col-md-6 col-sm-6 col-xs-12">
+	                            <input type="text" id="title" name="title" required="required" class="form-control col-md-7 col-xs-12" placeholder="Заголовок h1 и заголовок страницы...">
+	                          </div>
+	                        </div>
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Главная категория</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                              <select class="select2_single_main form-control" tabindex="-1">
+                                <option></option>
+                                {% for i in mainCat %}
+                                  <option value="{{i.id}}">{{i.name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+
+                          {% for i in mainCat %}
+                            <div class="form-group minCatAddDiv minCat-{{i.id}}" style="display:none">
+                              <label class="control-label col-md-3 col-sm-3 col-xs-12">Подкатегория</label>
+                              <div class="col-md-9 col-sm-9 col-xs-12">
+                                <select class="minCatSelect-{{i.id}} minSelect form-control" tabindex="-1">
+                                  <option></option>
+                                  {% for q in minCat %}
+                                    {% if q.mainCat == i %}
+                                    <option value="{{q.id}}">{{q.name}}</option>
+                                    {% endif %}
+                                  {% endfor %}
+                                </select>
+                              </div>
+                            </div>
+                          {% endfor %}
+
+	                      </form>
+                    </div>
+
+
+                    <div id="step-3">
+                    	<form action="{% url 'cab.tovars.uploadImage' %}" class="dropzone" style="border: 1px solid #e5e5e5; height: 300px; ">{% csrf_token %}</form>  
+                    </div>
+
+
+                    <div id="step-4">
+                      <h2 class="StepTitle">Step 4 Content</h2>
+                      
+                    </div>
+
+                  </div>
+                  <!-- End SmartWizard Content -->
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+{% endblock %}
+
+
+
+{% block myScripts %}
+
+
+	<!-- form wizard -->
+  	<script type="text/javascript" src="{% static 'cab/js/wizard/jquery.smartWizard.js'%}"></script>
+
+  	  <script src="{% static 'cab/js/tags/jquery.tagsinput.min.js'%}"></script>
+
+  	  <script src="{% static 'cab/js/dropzone/dropzone.js'%}"></script>
+
+      <script src="{% static 'cab/js/select/select2.full.js'%}"></script>
+	<script>
+		$(document).ready(function() {
+			//Старт пошаговой формы
+			$('#wizard').smartWizard({
+				transitionEffect: 'fade',
+				labelNext: 'Далее',
+				labelPrevious: 'Назад',
+				labelFinish: 'Финишь',
+				//onLeaveStep:leaveAStepCallback,
+        		//onFinish:onFinishCallback
+			});
+
+			function leaveAStepCallback(obj, context){
+		        alert("Текущий шаг " + context.fromStep + " переходим к шагу " + context.toStep);
+		        return validateSteps(context.fromStep); // return false to stay on step and true to continue navigation 
+		    }
+
+		    function onFinishCallback(objs, context){
+		        if(validateAllSteps()){
+		            //$('form').submit();
+		            alert("Нажат Финишь, и форма нормально щаполнена");
+		        }
+		    }
+
+		    // Your Step validation logic
+		    function validateSteps(stepnumber){
+		        var isStepValid = true;
+		        var errors = [];
+
+		        if(stepnumber == 1){
+		        	if( $("#name").val() == "")
+		        		errors.push("Пожалуйста заполните поле 'Имя'!");
+
+		        	if( $('#article').val() == "" )
+		        		errors.push("Пожалуйста заполните поле 'Артикль'!");
+
+		        	if( ($('#price').val() == "") || (Number($('#price').val()) <= -1) )
+		        		errors.push("Пожалуйста заполните корректно поле 'Цена'!");
+
+		        	if( $('#inform').val() == "" )
+		        		errors.push("Пожалуйста заполните поле 'Описание товара'!");
+
+		        	if( ($('#kol').val() == "") || (Number($('#kol').val()) <= -1) )
+		        		errors.push("Пожалуйста заполните корректно поле 'Колличество'!");
+		        }
+
+		        if( errors.length == 0 ){
+		        	if(stepnumber == 1)
+		        		$('#meta').val($('#name').val());
+		        	return true;
+		        }
+		        else{
+		        	$('.x_content > p').css('color', 'red').text('');
+		        	for(var i in errors){
+		        		$('.x_content > p').append(errors[i] + '</br>');
+		        	}
+
+		        	return false;s
+		        }
+		    }
+
+		    function validateAllSteps(){
+		        var isStepValid = true;
+		        // all step validation logic     
+		        return isStepValid;
+		    } 
+
+
+		    //МультиБокс для метатегов
+		    $('#meta').tagsInput({
+		        width: 'auto',
+		    });
+
+
+        //категории
+        $(".select2_single_main").select2({
+          placeholder: "Выберите главную категорию",
+          allowClear: true,
+          width: 'initial'
+        });
+		    
+
+        $(".select2_single_min").select2({
+          placeholder: "Выберите Подкатегорию",
+          allowClear: true,
+          width: 'initial'
+        }).prop('disabled', true);
+
+
+
+        var obj = new Object();
+
+
+        var mass = new Array();
+        {% for i in minCat %}
+          obj.id = {{i.id}};
+          obj.text = "{{i.name}}";
+          obj.parent = {{i.mainCat.id}};
+          mass.push(obj);
+        {% endfor %}
+
+        {% for i in minCat %}
+          $(".minCatSelect-{{i.id}}").select2({
+              placeholder: "Выберите Подкатегорию",
+              allowClear: true,
+              width: 'initial'
+          }).prop('disabled', true);
+        {% endfor %}
+
+        $('.select2_single_main').on("change", function(e) {
+            if( $(this).val() ){
+              
+              $('.minCatAddDiv').each(function(i,elem){
+                $(this).hide();
+              });
+
+              $('.minCat-' + $(this).val()).show();
+              $('.minCatSelect').prop("disabled", true);
+              $('.minCatSelect-' + $(this).val()).prop('disabled', "");
+            }
+            else{
+              $('.minCatAddDiv').each(function(i,elem){
+                $(this).hide();
+              }); 
+            }
+        });
+
+
+		});
+
+function proverkaPrice(input) {
+	ch = input.value.replace(/[^\d,]/g, ''); //разрешаем вводить только числа и запятую
+	pos = ch.indexOf(','); // проверяем, есть ли в строке запятая
+	if(pos != -1){ // если запятая есть
+	    if((ch.length-pos)>2){ // проверяем, сколько знаков после запятой, если больше 1го то
+	        ch = ch.slice(0, -1); // удаляем лишнее
+	    }
+	}
+	input.value = ch; // приписываем в инпут новое значение
+};
+
+	</script>
+
+
+{% endblock %}

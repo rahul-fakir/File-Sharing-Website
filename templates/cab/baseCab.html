@@ -1,0 +1,128 @@
+{% load staticfiles %}
+<html lang="ru">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Административная панель</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="{% static 'cab/css/bootstrap.min.css'%}" rel="stylesheet">
+
+  <link href="{% static 'cab/fonts/css/font-awesome.min.css'%}" rel="stylesheet">
+  <link href="{% static 'cab/css/animate.min.css'%}" rel="stylesheet">
+
+  <!-- Custom styling plus plugins -->
+  <link href="{% static 'cab/css/custom.css'%}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'cab/css/maps/jquery-jvectormap-2.0.3.css'%}" />
+  <link href="{% static 'cab/css/icheck/flat/green.css'%}" rel="stylesheet" />
+  <link href="{% static 'cab/css/floatexamples.css'%}" rel="stylesheet" type="text/css" />
+
+    {% block myCss %}
+    {% endblock %}
+  <script src="{% static 'cab/js/jquery.min.js'%}"></script>
+  <script src="{% static 'cab/js/nprogress.js'%}"></script>
+
+  <!--[if lt IE 9]
+        <script src="../assets/js/ie8-responsive-file-warning.js"></script>
+        [endif]-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+</head>
+<body class="nav-md">
+
+    <div class="container body">
+        <div class="main_container">
+            {% include "cab/elements/leftNav.html" %}
+            {% include "cab/elements/topNav.html" %}
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                {% include "cab/elements/topStatistick.html" %}
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+<script src="{% static 'cab/js/bootstrap.min.js'%}"></script>
+
+    {% block bottomStatistick %}
+
+    {% endblock %}
+    {% block gauge %}
+  <!-- gauge js
+  <script type="text/javascript" src="{% static 'cab/js/gauge/gauge.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/gauge/gauge_demo.js'%}"></script>-->
+    {% endblock %}
+    {% block bootstrap_progress %}
+  <!-- bootstrap progress js -->
+  <script src="{% static 'cab/js/progressbar/bootstrap-progressbar.min.js'%}"></script>
+    {% endblock %}
+    {% block icheck %}
+  <!-- icheck -->
+  <script src="{% static 'cab/js/icheck/icheck.min.js'%}"></script>
+    {% endblock %}
+    {% block daterangepicker %}
+<!-- daterangepicker -->
+  <script type="text/javascript" src="{% static 'cab/js/moment/moment.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/datepicker/daterangepicker.js'%}"></script>
+    {% endblock %}
+    {% block chart %}
+  <!-- chart js -->
+  <script src="{% static 'cab/js/chartjs/chart.min.js'%}"></script>
+    {% endblock %}
+    {% block custom %}
+  <script src="{% static 'cab/js/custom.js'%}"></script>
+    {% endblock %}
+
+    {% block flotJS %}
+  <!-- flot js -->
+  <!--[if lte IE 8]><script type="text/javascript" src="{% static 'cab/js/excanvas.min.js'%}"></script><![endif]-->
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.pie.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.orderBars.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.time.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/date.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.spline.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.stack.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/curvedLines.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/flot/jquery.flot.resize.js'%}"></script>
+    {% endblock %}
+
+    {% block worldmap %}
+  <!-- worldmap -->
+  <script type="text/javascript" src="{% static 'cab/js/maps/jquery-jvectormap-2.0.3.min.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/maps/gdp-data.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/maps/jquery-jvectormap-world-mill-en.js'%}"></script>
+  <script type="text/javascript" src="{% static 'cab/js/maps/jquery-jvectormap-us-aea-en.js'%}"></script>
+    {% endblock %}
+    {% block pace %}
+  <!-- pace -->
+  <script src="{% static 'cab/js/pace/pace.min.js'%}"></script>
+    {% endblock %}
+    {% block skycons %}
+    <!-- skycons -->
+  <script src="{% static 'cab/js/skycons/skycons.min.js'%}"></script>
+    {% endblock %}
+
+    {% block myScripts %}
+    {% endblock %}
+
+
+
+<!--Подгрузка статистики-->
+<script src="{% static 'js/scriptsCab.js'%}"></script>
+</body>
+</html>
